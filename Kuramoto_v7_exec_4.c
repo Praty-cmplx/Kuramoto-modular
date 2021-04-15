@@ -7,9 +7,9 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
-#include "MT19937-64.c"
+#include "MT19937-64.c" //Random numerbs
 #define PI 3.1415926
-#define size 1024
+#define size 1024 //System size
 #define sample 0.1
 
 
@@ -17,12 +17,12 @@
 #include "normal_rand.c"
 //double K = 0.1;
 //double r = 1e-0;
-double C;
-int nm=32, av_k=28;
-double const dt = 1e-2;
+double C; //Noise level
+int nm=32, av_k=28; // number of modules and average degree
+double const dt = 1e-2; //tmie step
 double const t_f = 20, t_i = 0;
-double n_steps = (t_f-t_i)/dt;
-double V[size][size];
+double n_steps = (t_f-t_i)/dt; ///number of steps
+double V[size][size]; //adjacency matrix
 double g_m, m_m;
 void network_generator(const int N, int nm, int av_k, double r, double V[N][N]);
 double std_norm();
@@ -36,11 +36,11 @@ double mod_mag(const int N, int nm, double ph[N]);
 
 int main(int argc, char *argv[])
 {
-	const int N = size;
-	double phase[N], phase_rate[N], freq[N];
-	double r, E_i, K = 100;
-	const int n_nets = 3, n_init = 4;
-	const int n_iter = n_nets*n_init;
+	const int N = size; // system size
+	double phase[N], phase_rate[N], freq[N]; // phase variables and intrinsic frequencies
+	double r, E_i, K = 100; 
+	const int n_nets = 3, n_init = 4; // no of networks and initial conditions
+	const int n_iter = n_nets*n_init; 
 	double avg_g[n_iter], avg_m[n_iter];
 	int seed = (unsigned) time(NULL);
 	init_genrand64(seed);
@@ -115,7 +115,7 @@ int main(int argc, char *argv[])
 	return 0;
 }
 
-void assign_freq(const int N, double f[N], int mode)
+void assign_freq(const int N, double f[N], int mode) // assign zero intrinsic frequncy
 {
 	if (mode == 0)
 		for (int i=0; i<N; i++)
@@ -124,13 +124,13 @@ void assign_freq(const int N, double f[N], int mode)
 		printf("Enter appropriate mode\n");
 }
 
-void initialize(const int N, double ph[N])
+void initialize(const int N, double ph[N]) //initial conditons
 {
 	for (int i=0; i<N; i++)
 		ph[i] = genrand64_real2()*2.0*PI;
 }
 
-void x_dot(const int N, double V[N][N], double ph[N], double ph_r[N], double f[N], double K)
+void x_dot(const int N, double V[N][N], double ph[N], double ph_r[N], double f[N], double K) //compute rate of change
 {
 	double tmp;
 	for (int i=0; i<N; i++)
@@ -165,7 +165,7 @@ void MP_Euler_step(double *x, double *x_new, double dt, double K)
 */
 
 
-void solver(const int N, double ph[N], double ph_r[N], double f[N], double V[N][N], double r, double K, double E)
+void solver(const int N, double ph[N], double ph_r[N], double f[N], double V[N][N], double r, double K, double E) // Stochastic solver
 {
 	int n = N/nm;
 	double phase_tmp[N], t;
