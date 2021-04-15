@@ -1,3 +1,4 @@
+//Original algorithm by Dr. R. K. Pan at Prof. Sitabhra Sinha's Complex systems group at IMSc.
 #include <math.h>
 
 void network_generator(const int N, int nm, int av_k, double r, double V[N][N])
